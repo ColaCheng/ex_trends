@@ -8,6 +8,5 @@ end
 
 defimpl ExTrends.Operation, for: ExTrends.Operation.DailyTrends do
   def perform(operation, config) do
-
   end
 end

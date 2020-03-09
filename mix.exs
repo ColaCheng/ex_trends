@@ -26,7 +26,7 @@ defmodule ExTrends.MixProject do
   defp deps do
     [
       {:httpoison, "~> 1.6"},
-      {:jiffy, "~> 1.0"},
+      {:jiffy, "~> 1.0"}
     ]
   end
 end
