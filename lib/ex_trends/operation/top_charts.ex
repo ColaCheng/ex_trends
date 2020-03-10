@@ -30,6 +30,7 @@ end
 defimpl ExTrends.Operation, for: ExTrends.Operation.TopCharts do
   def perform(operation) do
     url = :hackney_url.make_url(operation.url, operation.path, operation.params)
+
     ExTrends.Request.request(operation.http_method, url)
     |> operation.parser.()
   end
