@@ -1,19 +1,8 @@
 defmodule ExTrends do
-  @moduledoc """
-  Documentation for ExTrends.
-  """
-  # python ref: https://github.com/GeneralMills/pytrends
+  @behaviour ExTrends.Behaviour
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ExTrends.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  @impl true
+  def request(op) do
+    ExTrends.Operation.perform(op)
   end
 end

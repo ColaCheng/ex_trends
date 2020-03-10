@@ -1,3 +1,3 @@
 defprotocol ExTrends.Operation do
-  def perform(operation, config)
+  def perform(operation)
 end
