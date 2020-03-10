@@ -14,9 +14,7 @@ defmodule ExTrends.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      application: [
-        :httpoison
-      ],
+      application: [],
       extra_applications: [:logger],
       mod: {ExTrends.Application, []}
     ]
@@ -25,7 +23,7 @@ defmodule ExTrends.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison, "~> 1.6"},
+      {:hackney, "~> 1.15"},
       {:jiffy, "~> 1.0"}
     ]
   end

@@ -1,18 +1,18 @@
 defmodule ExTrends.Operation.DailyTrends do
   defstruct http_method: :get,
-            url: "https://trends.google.com/trends/api/dailytrends",
-            # params: %{hl: "en-US", tz: "-480", ns: "15"},
-            params: %{},
+            url: "https://trends.google.com",
+            path: "/trends/api/dailytrends",
+            params: [],
             parser: &ExTrends.Operation.DailyTrends.parser/1
 
   @type t :: %__MODULE__{}
 
-  def parser({:ok, data}) do
+  def parser({:ok, %{status_code: _status, headers: _headers, body: body}}) do
     try do
-      <<_::binary-size(5), real_data::binary>> = data
+      <<_::binary-size(5), data::binary>> = body
 
       result =
-        :jiffy.decode(real_data, [:return_maps])
+        :jiffy.decode(data, [:return_maps])
         |> get_in(["default", "trendingSearchesDays"])
         |> hd()
         |> Map.get("trendingSearches")
@@ -29,7 +29,8 @@ end
 
 defimpl ExTrends.Operation, for: ExTrends.Operation.DailyTrends do
   def perform(operation) do
-    ExTrends.Request.request(operation.http_method, operation.url, operation.params)
+    url = :hackney_url.make_url(operation.url, operation.path, operation.params)
+    ExTrends.Request.request(operation.http_method, url)
     |> operation.parser.()
   end
 end

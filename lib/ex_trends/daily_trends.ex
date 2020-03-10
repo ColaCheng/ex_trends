@@ -3,7 +3,7 @@ defmodule ExTrends.DailyTrends do
           ExTrends.Operation.DailyTrends.t()
   def request(geo, hl \\ "en-US", tz \\ "-480", ns \\ "15") do
     %ExTrends.Operation.DailyTrends{
-      params: %{geo: geo, hl: hl, tz: tz, ns: ns}
+      params: [geo: geo, hl: hl, tz: tz, ns: ns]
     }
     |> struct()
   end

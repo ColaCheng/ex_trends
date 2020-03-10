@@ -3,7 +3,7 @@ defmodule ExTrends.TopCharts do
           ExTrends.Operation.TopCharts.t()
   def request(date, geo \\ "GLOBAL", hl \\ "en-US", tz \\ "300") do
     %ExTrends.Operation.TopCharts{
-      params: %{date: date, hl: hl, tz: tz, geo: geo, isMobile: false}
+      params: [date: date, hl: hl, tz: tz, geo: geo, isMobile: false]
     }
     |> struct()
   end

@@ -10,17 +10,21 @@ defmodule ExTrends.Request do
   # @categories_url "https://trends.google.com/trends/api/explore/pickers/category"
   # @daily_trends_url "https://trends.google.com/trends/api/dailytrends"
 
-  def request(method, url, params) do
-    case HTTPoison.request(method, url, "", [], params: params) do
-      {:ok, %HTTPoison.Response{status_code: status, body: body}}
-      when status in 200..299 or status == 304 ->
-        {:ok, body}
+  @default_opts [recv_timeout: 30_000]
 
-      {:ok, %HTTPoison.Response{status_code: 301}} ->
-        {:error, 301}
+  def request(method, url, body \\ "", headers \\ [], http_opts \\ []) do
+    opts = Application.get_env(:ex_trends, :hackney_opts, @default_opts)
+    opts = http_opts ++ [:with_body | opts]
 
-      error ->
-        error
+    case :hackney.request(method, url, headers, body, opts) do
+      {:ok, status, headers} ->
+        {:ok, %{status_code: status, headers: headers}}
+
+      {:ok, status, headers, body} ->
+        {:ok, %{status_code: status, headers: headers, body: body}}
+
+      {:error, reason} ->
+        {:error, %{reason: reason}}
     end
   end
 end
