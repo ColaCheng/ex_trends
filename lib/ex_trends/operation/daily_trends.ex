@@ -9,17 +9,18 @@ defmodule ExTrends.Operation.DailyTrends do
 
   def parser({:ok, data}) do
     try do
+      <<_::binary-size(5), real_data::binary>> = data
+
       result =
-        String.trim(data, ")]}',\n")
-        |> :jiffy.decode([:return_maps])
+        :jiffy.decode(real_data, [:return_maps])
         |> get_in(["default", "trendingSearchesDays"])
         |> hd()
         |> Map.get("trendingSearches")
 
       {:ok, result}
     catch
-      _ ->
-        {:error, :error}
+      _ -> {:error, :error}
+      _, _ -> {:error, :error}
     end
   end
 
