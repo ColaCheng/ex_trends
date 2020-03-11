@@ -14,4 +14,18 @@ defmodule ExTrends do
     ExTrends.Request.request(operation.http_method, url, "", [{"Cookie", cookie}], [])
     |> operation.parser.()
   end
+
+  @impl true
+  def run!(operation) do
+    case run(operation) do
+      {:ok, result} ->
+        result
+
+      error ->
+        raise ExTrends.Error, """
+        ExTrends Request Error!
+        #{inspect(error)}
+        """
+    end
+  end
 end
