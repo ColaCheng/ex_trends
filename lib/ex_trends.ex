@@ -1,5 +1,16 @@
 defmodule ExTrends do
+  use Application
   @behaviour ExTrends.Behaviour
+
+  @impl true
+  def start(_type, _args) do
+    children = [
+      {ExTrends.Cookie, []}
+    ]
+
+    opts = [strategy: :one_for_one, name: ExTrends.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
 
   @impl true
   def run(operation) do

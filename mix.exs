@@ -16,7 +16,7 @@ defmodule ExTrends.MixProject do
     [
       application: [],
       extra_applications: [:logger],
-      mod: {ExTrends.Application, []}
+      mod: {ExTrends, []}
     ]
   end
 
