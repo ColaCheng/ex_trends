@@ -7,8 +7,9 @@ defmodule ExTrends.Behaviour do
           url: binary,
           path: binary,
           params: list,
-          parser: ({:ok | :error, map} -> {:ok | :error, map | atom})
+          parser: ({:ok | :error, term} -> {:ok | :error, term})
         }
 
   @callback run(t()) :: {:ok, term} | {:error, term}
+  @callback run!(t()) :: term | no_return
 end
