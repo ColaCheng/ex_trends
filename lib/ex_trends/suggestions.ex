@@ -24,7 +24,7 @@ defmodule ExTrends.Suggestions do
       |> Map.from_struct()
       |> Map.put(:keywords, [keyword])
 
-    case ExTrends.Explore.request(explore_query) |> ExTrends.request() do
+    case ExTrends.Explore.request(explore_query) |> ExTrends.run() do
       {:ok, [%{"request" => request, "token" => token} | _]} ->
         %{path: path} = suggestions = %ExTrends.Operation.Suggestions{}
         req = :jiffy.encode(request)

@@ -2,7 +2,7 @@ defmodule ExTrends do
   @behaviour ExTrends.Behaviour
 
   @impl true
-  def request(op) do
+  def run(op) do
     ExTrends.Operation.perform(op)
   end
 end

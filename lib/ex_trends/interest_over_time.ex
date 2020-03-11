@@ -26,7 +26,7 @@ defmodule ExTrends.InterestOverTime do
       |> Map.from_struct()
       |> Map.put(:keywords, (is_binary(keyword) && [keyword]) || keyword)
 
-    with {:ok, explore} <- ExTrends.Explore.request(explore_query) |> ExTrends.request(),
+    with {:ok, explore} <- ExTrends.Explore.request(explore_query) |> ExTrends.run(),
          %{"request" => request, "token" => token} <-
            Enum.find(explore, &(Map.get(&1, "id") == @id)) do
       req = :jiffy.encode(request)
