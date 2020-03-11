@@ -7,7 +7,7 @@ defmodule ExTrends.Operation.Explore do
 
   @type t :: %__MODULE__{}
 
-  def parser({:ok, %{status_code: 200, headers: _headers, body: body}}) do
+  def parser({:ok, %{status_code: 200, body: body}}) do
     try do
       <<_::binary-size(4), data::binary>> = body
 
@@ -17,10 +17,10 @@ defmodule ExTrends.Operation.Explore do
 
       {:ok, result}
     catch
-      _ -> {:error, :error1}
-      _, _ -> {:error, :error2}
+      type, error -> {:error, {type, error}}
     end
   end
 
+  def parser({:ok, response}), do: {:error, response}
   def parser(error), do: error
 end

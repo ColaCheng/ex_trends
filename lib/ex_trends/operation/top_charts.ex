@@ -7,7 +7,7 @@ defmodule ExTrends.Operation.TopCharts do
 
   @type t :: %__MODULE__{}
 
-  def parser({:ok, %{status_code: _status, headers: _headers, body: body}}) do
+  def parser({:ok, %{status_code: 200, body: body}}) do
     try do
       <<_::binary-size(5), data::binary>> = body
 
@@ -19,10 +19,10 @@ defmodule ExTrends.Operation.TopCharts do
 
       {:ok, result}
     catch
-      _ -> {:error, :error}
-      _, _ -> {:error, :error}
+      type, error -> {:error, {type, error}}
     end
   end
 
+  def parser({:ok, response}), do: {:error, response}
   def parser(error), do: error
 end
