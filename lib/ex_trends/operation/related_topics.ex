@@ -10,7 +10,7 @@ defmodule ExTrends.Operation.RelatedTopics do
   def parser({:ok, %{status_code: 200, headers: _headers, body: body}}) do
     try do
       <<_::binary-size(5), data::binary>> = body
-      {:ok, :jiffy.decode(data, [:return_maps])}
+      {:ok, :jiffy.decode(data, [:return_maps]) |> Map.get("default", %{})}
     catch
       _ -> {:error, :error1}
       _, _ -> {:error, :error2}
