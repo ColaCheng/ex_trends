@@ -28,7 +28,8 @@ defmodule ExTrends.Cookie do
     with {:ok, %{status_code: 200, headers: headers}} <-
            ExTrends.Request.request(:get, @cookie_url, "", [], follow_redirect: true),
          cookie when cookie != :undefined <- :proplists.get_value("Set-Cookie", headers) do
-      :ets.insert(@ets_table, {:cookie, cookie})
+      [cookie_value | _] = String.split(cookie, ";")
+      :ets.insert(@ets_table, {:cookie, cookie_value})
     else
       _ -> Process.send_after(self(), :timeout, 5000)
     end
