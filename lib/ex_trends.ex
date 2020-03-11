@@ -2,7 +2,7 @@ defmodule ExTrends do
   use Application
   @behaviour ExTrends.Behaviour
 
-  @impl true
+  @impl Application
   def start(_type, _args) do
     children = [
       {ExTrends.Cookie, []}
@@ -12,7 +12,7 @@ defmodule ExTrends do
     Supervisor.start_link(children, opts)
   end
 
-  @impl true
+  @impl ExTrends.Behaviour
   def run(operation) do
     url = :hackney_url.make_url(operation.url, operation.path, operation.params)
 
@@ -26,7 +26,7 @@ defmodule ExTrends do
     |> operation.parser.()
   end
 
-  @impl true
+  @impl ExTrends.Behaviour
   def run!(operation) do
     case run(operation) do
       {:ok, result} ->
