@@ -3,7 +3,7 @@ defmodule ExTrends.Behaviour do
   A behaviour definition for the core operations of ExTrends
   """
   @type t :: %{
-          http_method: :get | :post,
+          http_method: :get,
           url: binary,
           path: binary,
           params: list,

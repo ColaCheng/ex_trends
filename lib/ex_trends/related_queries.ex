@@ -18,13 +18,17 @@ defmodule ExTrends.RelatedQueries do
           optional(:prop) => binary,
           optional(:cat) => integer
         }) :: ExTrends.Operation.RelatedQueries.t()
-  def request(%{keyword: keyword} = query) when is_binary(keyword) or is_list(keyword) do
+  def request(%{keyword: keyword} = query) when is_binary(keyword) do
+    request(Map.put(query, :keyword, [keyword]))
+  end
+
+  def request(%{keyword: keywords} = query) do
     %{hl: hl, tz: tz} =
       explore_query =
       %ExTrends.RelatedQueries{}
       |> struct(query)
       |> Map.from_struct()
-      |> Map.put(:keywords, (is_binary(keyword) && [keyword]) || keyword)
+      |> Map.put(:keywords, keywords)
 
     with {:ok, explore} <- ExTrends.Explore.request(explore_query) |> ExTrends.run(),
          %{"request" => request, "token" => token} <-

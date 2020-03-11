@@ -1,14 +1,5 @@
 defmodule ExTrends.Explore do
-  @spec request(%{
-          keywords: list,
-          time: binary,
-          geo: binary,
-          hl: binary,
-          tz: binary,
-          cat: integer,
-          prop: binary
-        }) ::
-          ExTrends.Operation.Explore.t()
+  @spec request(map) :: ExTrends.Operation.Explore.t()
   def request(%{keywords: keywords, time: time, geo: geo, hl: hl, tz: tz, cat: cat, prop: prop}) do
     comparison_item = for k <- keywords, do: %{keyword: k, time: time, geo: geo}
     req = :jiffy.encode(%{comparisonItem: comparison_item, category: cat, property: prop})
