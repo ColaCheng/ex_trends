@@ -25,3 +25,5 @@ ex_trends-*.tar
 .mix_tasks
 
 /.elixir_ls
+
+mix.lock
