@@ -18,7 +18,9 @@ defmodule ExTrends.Cookie do
 
   @impl true
   def init(_) do
-    :ets.new(@ets_table, [:named_table, write_concurrency: true, read_concurrency: true])
+    @ets_table =
+      :ets.new(@ets_table, [:named_table, write_concurrency: true, read_concurrency: true])
+
     send(self(), :timeout)
     {:ok, []}
   end
