@@ -1,17 +1,34 @@
 defmodule ExTrends.MixProject do
   use Mix.Project
 
+  @description """
+    Elixir Google Trends client
+  """
+
   def project do
     [
       app: :ex_trends,
       version: "0.1.0",
-      elixir: "~> 1.9",
+      elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      description: @description,
+      name: "ExTrends",
+      source_url: "https://github.com/ColaCheng/ex_trends",
+      package: package(),
+      dialyzer: [
+        plt_add_deps: :transitive,
+        flags: [
+          :unmatched_returns,
+          :race_conditions,
+          :underspecs
+          # :overspecs,
+          # :specdiffs
+        ]
+      ]
     ]
   end
 
-  # Run "mix help compile.app" to learn about applications.
   def application do
     [
       application: [],
@@ -20,12 +37,19 @@ defmodule ExTrends.MixProject do
     ]
   end
 
-  # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:hackney, "~> 1.15"},
       {:jiffy, "~> 1.0"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+    ]
+  end
+
+  defp package do
+    [
+      maintainers: ["Cola Cheng"],
+      licenses: ["MIT"],
+      links: %{GitHub: "https://github.com/ColaCheng/ex_trends"}
     ]
   end
 end
