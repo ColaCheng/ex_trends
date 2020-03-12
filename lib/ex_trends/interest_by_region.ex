@@ -26,7 +26,7 @@ defmodule ExTrends.InterestByRegion do
   end
 
   def request(%{keyword: keywords} = query) do
-    %{hl: hl, tz: tz, resolution: resolution, time: _, geo: _, prop: _, cat: _} =
+    %{hl: hl, tz: tz, resolution: resolution} =
       explore_query =
       ExTrends.InterestByRegion
       |> struct(query)
