@@ -35,8 +35,8 @@ defmodule ExTrends.Suggestions do
             path: path <> "/" <> URI.encode(keyword)
         }
 
-      _ ->
-        {:error, :error}
+      error ->
+        error
     end
   end
 end

@@ -38,7 +38,7 @@ defmodule ExTrends.RelatedTopics do
       %ExTrends.Operation.RelatedTopics{params: [hl: hl, tz: tz, req: req, token: token]}
     else
       nil -> {:error, :notfound}
-      _ -> {:error, :error}
+      error -> error
     end
   end
 end

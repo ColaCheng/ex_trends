@@ -7,5 +7,6 @@ defmodule ExTrends.Explore do
     %ExTrends.Operation.Explore{
       params: [hl: hl, tz: tz, req: req]
     }
+    |> struct()
   end
 end

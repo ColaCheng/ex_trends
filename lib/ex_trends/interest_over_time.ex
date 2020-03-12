@@ -38,7 +38,7 @@ defmodule ExTrends.InterestOverTime do
       %ExTrends.Operation.InterestOverTime{params: [hl: hl, tz: tz, req: req, token: token]}
     else
       nil -> {:error, :notfound}
-      _ -> {:error, :error}
+      error -> error
     end
   end
 end
