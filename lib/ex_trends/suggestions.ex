@@ -15,7 +15,7 @@ defmodule ExTrends.Suggestions do
           optional(:tz) => binary,
           optional(:prop) => binary,
           optional(:cat) => integer
-        }) :: ExTrends.Operation.Suggestions.t()
+        }) :: ExTrends.Operation.Suggestions.t() | no_return
   def request(%{keyword: keyword} = query) do
     %{hl: hl, tz: tz} =
       explore_query =
@@ -35,8 +35,17 @@ defmodule ExTrends.Suggestions do
             path: path <> "/" <> URI.encode(keyword)
         }
 
+      {:ok, _} ->
+        raise ExTrends.Error, """
+        ExTrends Request Error!
+        Can not build Operation
+        """
+
       error ->
-        error
+        raise ExTrends.Error, """
+        ExTrends Request Error!
+        #{inspect(error)}
+        """
     end
   end
 end

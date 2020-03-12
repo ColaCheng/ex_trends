@@ -16,6 +16,7 @@ defmodule ExTrends.MixProject do
       name: "ExTrends",
       source_url: "https://github.com/ColaCheng/ex_trends",
       package: package(),
+      docs: docs(),
       dialyzer: [
         plt_add_deps: :transitive,
         flags: [
@@ -42,6 +43,13 @@ defmodule ExTrends.MixProject do
       {:hackney, "~> 1.15"},
       {:jiffy, "~> 1.0"},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
+    ]
+  end
+
+  def docs do
+    [
+      readme: "README.md",
+      main: ExTrends
     ]
   end
 

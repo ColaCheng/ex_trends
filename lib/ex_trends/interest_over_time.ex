@@ -17,7 +17,7 @@ defmodule ExTrends.InterestOverTime do
           optional(:tz) => binary,
           optional(:prop) => binary,
           optional(:cat) => integer
-        }) :: ExTrends.Operation.InterestOverTime.t()
+        }) :: ExTrends.Operation.InterestOverTime.t() | no_return
   def request(%{keyword: keyword} = query) when is_binary(keyword) do
     request(Map.put(query, :keyword, [keyword]))
   end
@@ -30,15 +30,18 @@ defmodule ExTrends.InterestOverTime do
       |> Map.from_struct()
       |> Map.put(:keywords, keywords)
 
-    with {:ok, explore} <- ExTrends.Explore.request(explore_query) |> ExTrends.run(),
+    with explore <- ExTrends.Explore.request(explore_query) |> ExTrends.run!(),
          %{"request" => request, "token" => token} <-
            Enum.find(explore, &(Map.get(&1, "id") == @id)) do
       req = :jiffy.encode(request)
 
       %ExTrends.Operation.InterestOverTime{params: [hl: hl, tz: tz, req: req, token: token]}
     else
-      nil -> {:error, :notfound}
-      error -> error
+      nil ->
+        raise ExTrends.Error, """
+        ExTrends Request Error!
+        Can not build Operation
+        """
     end
   end
 end
