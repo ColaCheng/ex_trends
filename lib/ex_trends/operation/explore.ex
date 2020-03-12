@@ -7,6 +7,7 @@ defmodule ExTrends.Operation.Explore do
 
   @type t :: %__MODULE__{}
 
+  @doc false
   def parser({:ok, %{status_code: 200, body: body}}) do
     try do
       <<_::binary-size(4), data::binary>> = body

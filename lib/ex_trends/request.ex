@@ -1,4 +1,5 @@
 defmodule ExTrends.Request do
+  @moduledoc false
   @default_opts [recv_timeout: 30_000]
 
   def request(method, url, body \\ "", headers \\ [], http_opts \\ []) do

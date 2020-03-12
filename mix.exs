@@ -4,11 +4,12 @@ defmodule ExTrends.MixProject do
   @description """
     Elixir Google Trends client
   """
+  @version "0.1.0"
 
   def project do
     [
       app: :ex_trends,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
@@ -42,6 +43,7 @@ defmodule ExTrends.MixProject do
     [
       {:hackney, "~> 1.15"},
       {:jiffy, "~> 1.0"},
+      {:ex_doc, "~> 0.16", only: [:dev, :test]},
       {:dialyxir, "~> 1.0.0-rc.7", only: [:dev], runtime: false}
     ]
   end
@@ -49,7 +51,8 @@ defmodule ExTrends.MixProject do
   def docs do
     [
       readme: "README.md",
-      main: ExTrends
+      main: ExTrends,
+      source_ref: "v#{@version}"
     ]
   end
 

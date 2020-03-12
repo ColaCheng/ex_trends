@@ -1,4 +1,5 @@
 defmodule ExTrends.Cookie do
+  @moduledoc false
   use GenServer
 
   @ets_table :google_trends_cookie
@@ -9,6 +10,9 @@ defmodule ExTrends.Cookie do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
+  @doc """
+  Get google trends cookie from ets.
+  """
   def get() do
     case :ets.lookup(@ets_table, :cookie) do
       [cookie: cookie] -> {:ok, cookie}
