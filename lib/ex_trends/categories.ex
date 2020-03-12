@@ -10,7 +10,7 @@ defmodule ExTrends.Categories do
     * `hl` - Preferred language (defaults to `en-US`. Ref: [language-codes](https://sites.google.com/site/tomihasa/google-language-codes))
 
   ## Examples
-    ExTrends.Categories.request("zh-TW")
+    `ExTrends.Categories.request("zh-TW") |> ExTrends.run()`
   """
   @spec request(hl :: binary) :: ExTrends.Operation.Categories.t()
   def request(hl \\ "en-US") do

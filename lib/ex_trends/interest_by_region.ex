@@ -21,7 +21,7 @@ defmodule ExTrends.InterestByRegion do
   To build interest by region operation
 
   Map keys:
-    * `keyword` - type string or list of string - the search term(s) of interest.
+    * `keyword` - type string or list of string(up to 5 keywords) - the search term(s) of interest.
     * `time` - Location of interest.
     * `geo` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: "US-CA-800"` will target the Bakersfield, California, United States or `geo: "US"` will just target the US.
     * `resolution` - `COUNTRY`, `REGION`, `CITY` or `DMA`. Resolution is selected by default otherwise. Trying to select a resolution larger than a specified geo will return an error.
@@ -54,7 +54,7 @@ defmodule ExTrends.InterestByRegion do
       - Seems to only work for 1, 4 hours only
 
   ## Examples
-    ExTrends.InterestByRegion.request(%{keyword: "virus"})
+    `ExTrends.InterestByRegion.request(%{keyword: "virus"}) |> ExTrends.run()`
   """
   @spec request(%{
           required(:keyword) => binary | list(binary),

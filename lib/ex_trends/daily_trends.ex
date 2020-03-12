@@ -12,7 +12,7 @@ defmodule ExTrends.DailyTrends do
     * `tz` - Timezone Offset from UTC in minutes (defaults to 0)
 
   ## Examples
-    ExTrends.DailyTrends.request("TW")
+    `ExTrends.DailyTrends.request("TW") |> ExTrends.run()`
   """
   @spec request(geo :: binary, hl :: binary, tz :: integer) ::
           ExTrends.Operation.DailyTrends.t()

@@ -15,7 +15,7 @@ defmodule ExTrends.TopCharts do
     * `tz` - Timezone Offset from UTC in minutes (defaults to 0)
 
   ## Examples
-    ExTrends.TopCharts.request("2019")
+    `ExTrends.TopCharts.request("2019") |> ExTrends.run()`
   """
   @spec request(date :: binary | integer, geo :: binary, hl :: binary, tz :: integer) ::
           ExTrends.Operation.TopCharts.t()

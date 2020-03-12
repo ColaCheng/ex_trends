@@ -18,7 +18,7 @@ defmodule ExTrends.RelatedQueries do
   To build related queries operation
 
   Map keys:
-    * `keyword` - type string or list of string - the search term(s) of interest.
+    * `keyword` - type string or list of string(up to 5 keywords) - the search term(s) of interest.
     * `time` - Location of interest.
     * `geo` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: "US-CA-800"` will target the Bakersfield, California, United States or `geo: "US"` will just target the US.
     * `hl` - Preferred language (defaults to `en-US`. Ref: [language-codes](https://sites.google.com/site/tomihasa/google-language-codes))
@@ -50,9 +50,9 @@ defmodule ExTrends.RelatedQueries do
       - Seems to only work for 1, 4 hours only
 
   ## Examples
-    ExTrends.RelatedQueries.request(%{keyword: "virus"})
+    `ExTrends.RelatedQueries.request(%{keyword: ["erlang", "elixir"]}) |> Enum.map(&ExTrends.run/1)`
   """
-  @spec request(%{
+  @spec requests(%{
           required(:keyword) => binary | list(binary),
           optional(:time) => binary,
           optional(:geo) => binary,
@@ -60,12 +60,12 @@ defmodule ExTrends.RelatedQueries do
           optional(:tz) => binary,
           optional(:prop) => binary,
           optional(:cat) => integer
-        }) :: ExTrends.Operation.RelatedQueries.t() | no_return
-  def request(%{keyword: keyword} = query) when is_binary(keyword) do
-    request(Map.put(query, :keyword, [keyword]))
+        }) :: [ExTrends.Operation.RelatedQueries.t()] | no_return
+  def requests(%{keyword: keyword} = query) when is_binary(keyword) do
+    requests(Map.put(query, :keyword, [keyword]))
   end
 
-  def request(%{keyword: keywords} = query) do
+  def requests(%{keyword: keywords} = query) do
     %{hl: hl, tz: tz} =
       explore_query =
       %ExTrends.RelatedQueries{}
@@ -73,17 +73,30 @@ defmodule ExTrends.RelatedQueries do
       |> Map.from_struct()
       |> Map.put(:keywords, keywords)
 
-    with explore <- ExTrends.Explore.request(explore_query) |> ExTrends.run!(),
-         %{"request" => request, "token" => token} <-
-           Enum.find(explore, &(Map.get(&1, "id") == @id)) do
-      req = :jiffy.encode(request)
+    case ExTrends.Explore.request(explore_query) |> ExTrends.run() do
+      {:ok, response} ->
+        Enum.reduce(response, [], fn explore, acc ->
+          case Map.get(explore, "id") do
+            <<@id::binary, _::binary>> ->
+              %{"request" => request, "token" => token} = explore
+              req = :jiffy.encode(request)
 
-      %ExTrends.Operation.RelatedQueries{params: [hl: hl, tz: tz, req: req, token: token]}
-    else
-      nil ->
+              [
+                %ExTrends.Operation.RelatedQueries{
+                  params: [hl: hl, tz: tz, req: req, token: token]
+                }
+                | acc
+              ]
+
+            _ ->
+              acc
+          end
+        end)
+
+      error ->
         raise ExTrends.Error, """
         ExTrends Request Error!
-        Can not build Operation
+        #{inspect(error)}
         """
     end
   end

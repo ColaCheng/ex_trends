@@ -18,7 +18,7 @@ defmodule ExTrends.RelatedTopics do
   To build related queries operation
 
   Map keys:
-    * `keyword` - type string or list of string - the search term(s) of interest.
+    * `keyword` - string - the search term of interest.
     * `time` - Location of interest.
     * `geo` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: "US-CA-800"` will target the Bakersfield, California, United States or `geo: "US"` will just target the US.
     * `hl` - Preferred language (defaults to `en-US`. Ref: [language-codes](https://sites.google.com/site/tomihasa/google-language-codes))
@@ -50,10 +50,10 @@ defmodule ExTrends.RelatedTopics do
       - Seems to only work for 1, 4 hours only
 
   ## Examples
-    ExTrends.RelatedTopics.request(%{keyword: "virus"})
+    `ExTrends.RelatedTopics.request(%{keyword: "virus"}) |> ExTrends.run()`
   """
   @spec request(%{
-          required(:keyword) => binary | list(binary),
+          required(:keyword) => binary,
           optional(:time) => binary,
           optional(:geo) => binary,
           optional(:hl) => binary,
@@ -61,17 +61,13 @@ defmodule ExTrends.RelatedTopics do
           optional(:prop) => binary,
           optional(:cat) => integer
         }) :: ExTrends.Operation.RelatedTopics.t() | no_return
-  def request(%{keyword: keyword} = query) when is_binary(keyword) do
-    request(Map.put(query, :keyword, [keyword]))
-  end
-
-  def request(%{keyword: keywords} = query) do
+  def request(%{keyword: keyword} = query) do
     %{hl: hl, tz: tz} =
       explore_query =
       %ExTrends.RelatedTopics{}
       |> struct(query)
       |> Map.from_struct()
-      |> Map.put(:keywords, keywords)
+      |> Map.put(:keywords, [keyword])
 
     with explore <- ExTrends.Explore.request(explore_query) |> ExTrends.run!(),
          %{"request" => request, "token" => token} <-

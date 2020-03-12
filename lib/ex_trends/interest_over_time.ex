@@ -18,7 +18,7 @@ defmodule ExTrends.InterestOverTime do
   To build interest over time operation
 
   Map keys:
-    * `keyword` - type string or list of string - the search term(s) of interest.
+    * `keyword` - type string or list of string(up to 5 keywords) - the search term(s) of interest.
     * `time` - Location of interest.
     * `geo` - geocode for a country, region, or DMA depending on the granularity required (defaults to worldwide). For example, `geo: "US-CA-800"` will target the Bakersfield, California, United States or `geo: "US"` will just target the US.
     * `hl` - Preferred language (defaults to `en-US`. Ref: [language-codes](https://sites.google.com/site/tomihasa/google-language-codes))
@@ -50,7 +50,7 @@ defmodule ExTrends.InterestOverTime do
       - Seems to only work for 1, 4 hours only
 
   ## Examples
-    ExTrends.InterestOverTime.request(%{keyword: "virus"})
+    `ExTrends.InterestOverTime.request(%{keyword: "virus"}) |> ExTrends.run()`
   """
   @spec request(%{
           required(:keyword) => binary | list(binary),
