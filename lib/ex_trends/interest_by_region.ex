@@ -39,7 +39,6 @@ defmodule ExTrends.InterestByRegion do
       req = :jiffy.encode(Map.put(request, "resolution", resolution))
 
       %ExTrends.Operation.InterestByRegion{params: [hl: hl, tz: tz, req: req, token: token]}
-      |> struct()
     else
       nil -> {:error, :notfound}
       _ -> {:error, :error}

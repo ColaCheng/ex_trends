@@ -36,7 +36,6 @@ defmodule ExTrends.RelatedTopics do
       req = :jiffy.encode(request)
 
       %ExTrends.Operation.RelatedTopics{params: [hl: hl, tz: tz, req: req, token: token]}
-      |> struct()
     else
       nil -> {:error, :notfound}
       _ -> {:error, :error}

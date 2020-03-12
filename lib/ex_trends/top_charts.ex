@@ -5,6 +5,5 @@ defmodule ExTrends.TopCharts do
     %ExTrends.Operation.TopCharts{
       params: [date: date, hl: hl, tz: tz, geo: geo, isMobile: false]
     }
-    |> struct()
   end
 end

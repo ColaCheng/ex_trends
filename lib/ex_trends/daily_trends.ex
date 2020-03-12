@@ -5,6 +5,5 @@ defmodule ExTrends.DailyTrends do
     %ExTrends.Operation.DailyTrends{
       params: [geo: geo, hl: hl, tz: tz, ns: ns]
     }
-    |> struct()
   end
 end

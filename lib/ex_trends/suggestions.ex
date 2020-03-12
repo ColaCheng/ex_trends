@@ -34,7 +34,6 @@ defmodule ExTrends.Suggestions do
           | params: [hl: hl, tz: tz, req: req, token: token],
             path: path <> "/" <> URI.encode(keyword)
         }
-        |> struct()
 
       _ ->
         {:error, :error}

@@ -36,7 +36,6 @@ defmodule ExTrends.RelatedQueries do
       req = :jiffy.encode(request)
 
       %ExTrends.Operation.RelatedQueries{params: [hl: hl, tz: tz, req: req, token: token]}
-      |> struct()
     else
       nil -> {:error, :notfound}
       _ -> {:error, :error}

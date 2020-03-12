@@ -36,7 +36,6 @@ defmodule ExTrends.InterestOverTime do
       req = :jiffy.encode(request)
 
       %ExTrends.Operation.InterestOverTime{params: [hl: hl, tz: tz, req: req, token: token]}
-      |> struct()
     else
       nil -> {:error, :notfound}
       _ -> {:error, :error}
