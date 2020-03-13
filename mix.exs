@@ -4,7 +4,7 @@ defmodule ExTrends.MixProject do
   @description """
     Elixir Google Trends client
   """
-  @version "0.1.0"
+  @version "0.1.1"
 
   def project do
     [
@@ -33,7 +33,6 @@ defmodule ExTrends.MixProject do
 
   def application do
     [
-      application: [],
       extra_applications: [:logger],
       mod: {ExTrends, []}
     ]
